@@ -1,0 +1,2 @@
+# china_demestic_epidemic
+项目名称：基于Python的疫情实时监控系统。项目基于Python语言、Python的Flask框架和Echarts来做的，涉及的技术有Python网络爬虫；Python与MySQL数据库的交互；Flask框架构建Web项目；Echarts数据可视化显示；Linux部署web项目以及爬虫。
