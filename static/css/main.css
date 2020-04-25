@@ -1,0 +1,88 @@
+body {
+    background-color: #333333;
+}
+
+#title {
+    /*相对于body定位*/
+    position: absolute;
+    height: 10%;
+    width: 40%;
+    top: 0;
+    left: 30%;
+    /*background-color: aqua;*/
+    font-size: 35px;
+    color: white;
+    display: flex; /*弹性布局*/
+    align-items: center;
+    justify-content: center;
+}
+
+#l1 {
+    /*相对于body定位*/
+    position: absolute;
+    height: 45%;
+    width: 30%;
+    top: 10%;
+    left: 0;
+    background-color: antiquewhite;
+}
+
+#l2 {
+    /*相对于body定位*/
+    position: absolute;
+    height: 45%;
+    width: 30%;
+    top: 55%;
+    left: 0;
+    background-color: aqua;
+}
+
+#c1 {
+    /*相对于body定位*/
+    position: absolute;
+    height: 30%;
+    width: 40%;
+    top: 10%;
+    left: 30%;
+    background-color: rosybrown;
+}
+
+#c2 {
+    /*相对于body定位*/
+    position: absolute;
+    height: 60%;
+    width: 40%;
+    top: 40%;
+    left: 30%;
+    background-color: lavenderblush;
+}
+
+#time {
+    /*相对于body定位*/
+    position: absolute;
+    height: 10%;
+    width: 30%;
+    top: 0;
+    right: 0;
+    background-color: rebeccapurple;
+}
+
+#r1 {
+    /*相对于body定位*/
+    position: absolute;
+    height: 45%;
+    width: 30%;
+    top: 10%;
+    right: 0;
+    background-color: peru;
+}
+
+#r2 {
+    /*相对于body定位*/
+    position: absolute;
+    height: 45%;
+    width: 30%;
+    top: 55%;
+    right: 0;
+    background-color: greenyellow;
+}
