@@ -3,7 +3,7 @@ import json
 import time
 
 
-def get_tencent_data_history():
+def get_tencent_history_data():
     '''
     获取历史数据
     :return:历史数据
@@ -57,7 +57,7 @@ def get_tencent_data_history():
     return history_data
 
 
-def get_tencent_data_today():
+def get_tencent_detail_data():
     '''
     获取当日详细数据
     :return: 当日详细数据
@@ -91,8 +91,9 @@ def get_tencent_data_today():
             city_add_num = citis_data['today']['confirm']
             detail_data.append(
                 [lastUpdateTime, province_name, city_name, city_confirm_num, suspect_num, heal, city_add_num])
-    return detail_data
+    return detail_data  # list
 
 
-print(get_tencent_data_history())
-print(get_tencent_data_today())
+if __name__ == '__main__':
+    print(get_tencent_history_data())
+    # print(get_tencent_detail_data())
