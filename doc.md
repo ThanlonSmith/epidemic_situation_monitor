@@ -297,11 +297,53 @@ if __name__ == '__main__':
 ##### 4. web开发与可视化
 ###### 4.1 可视化大屏模板设计
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200425140815148.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RoYW5sb24=,size_16,color_FFFFFF,t_70)
-###### 4.2 
+>**项目源代码在文章的最下面，仅供参考!!!**
+###### 4.2 疫情概况
+###### 4.3 服务器时间显示
+获取服务器时间的后台逻辑：
+
+<kbd>get_server_time.py：</kbd>
+```py
+import time
+
+
+def get_server_time():
+    time_str = time.strftime('%Y{}%m{}%d %H:%M:%S')  # 第二个参数没传就使用当前时间戳
+    return time_str.format('-', '-')
+
+
+if __name__ == '__main__':
+    print(get_server_time(), type(get_server_time()))  # 2020-04-26 01:04:44 <class 'str'>
+```
+<kbd>app.py：</kbd>
+```py
+@app.route('/get_time')
+def get_time():
+    return get_server_time()
+```
+前台ajax请求服务器时间逻辑：
+
+<kbd>get_time.js：</kbd>
+```js
+function get_time() {
+    $.ajax({
+        url: "/get_time",
+        timeout: 10000,//超时时间设置为10秒
+        success: function (data) {
+            $('#time').html(data);
+        }, error: function (xhr, type, errorThrown) {
+
+        }
+    })
+}
+
+setInterval(get_time, 1000);
+```
+###### 4.4 
 在pycharm创建一个flask的项目，会自动构建初始的项目目录。下面是业务处理逻辑代码：
 
 
 ##### 5. 项目部署
 ###### 5.1 部署流程
 ###### 5.2 定时调度爬虫
->**Github：**
+>**Github：[https://github.com/ThanlonSmith/epidemic_situation_monitor](https://github.com/ThanlonSmith/epidemic_situation_monitor)**

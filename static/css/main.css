@@ -44,7 +44,25 @@ body {
     width: 40%;
     top: 10%;
     left: 30%;
-    background-color: rosybrown;
+    color: white;
+}
+
+.epidemic_situation {
+    width: 25%;
+    float: left;
+    display: flex; /*也启用了弹性布局*/
+    align-items: center;
+    justify-content: center;
+    color: gold;
+    font-size: 20px;
+}
+
+.txt {
+    width: 25%;
+    float: left;
+    display: flex; /*也启用了弹性布局*/
+    align-items: center;
+    justify-content: center;
 }
 
 #c2 {
@@ -61,10 +79,10 @@ body {
     /*相对于body定位*/
     position: absolute;
     height: 10%;
-    width: 30%;
-    top: 0;
-    right: 0;
-    background-color: rebeccapurple;
+    top: 3.5%;
+    right: 2%;
+    color: #ffffff;
+    font-size: 20px;
 }
 
 #r1 {
