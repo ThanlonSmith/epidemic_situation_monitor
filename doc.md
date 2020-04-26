@@ -118,9 +118,40 @@ if __name__ == '__main__':
 百度的数据页面使用的是动态渲染技术，`使用普通的请求方式是获取不到数据的`：
 ```py
 # 使用普通的爬取方式
-
+url = 'https://voice.baidu.com/act/virussearch/virussearch/'
+ret = requests.get(url)
+print(ret.text)
 ```
-但是可以使用selenium模块来爬取，selenium是一个用于web程序测试的工具，直接运行在浏览器上，就如真正的用户在操作一样。安装selenium模块：`pip install selenium -i https://mirrors.aliyum.com/pypi/simple`，
+`没有爬取我们想要的数据：`
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200427020347792.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RoYW5sb24=,size_16,color_FFFFFF,t_70)
+但是可以使用selenium模块来爬取，selenium是一个用于web程序测试的工具，直接运行在浏览器上，就如真正的用户在操作一样。安装selenium模块：`pip install selenium -i https://mirrors.aliyun.com/pypi/simple`。此外还需要下载安装浏览器和下载浏览器对应版本的驱动，因为selenium是模拟浏览器工作的。我这里使用的是chrome浏览器，驱动的下载地址是：[http://npm.taobao.org/mirrors/chromedriver/](http://npm.taobao.org/mirrors/chromedriver/)。selenium的基本使用：**① 创建浏览器对象；② 浏览器对象.get()方法向url地址发起请求；③ 利用浏览器打开的地址使用浏览器.find方法查找资源。**
+```py
+def get_host_search():
+    from selenium.webdriver import Chrome, ChromeOptions
+    # google chrome的无头模式，即不打开浏览器，后台自动加载数据，可以大幅度提高爬虫效率，
+    option = ChromeOptions()
+    option.add_argument('--headless')  # 一藏浏览器，可以大幅度提高爬虫效率
+    option.add_argument('--no-sandbox')  # 部署的时候linux还会要求参数，需要禁用sandbox
+    broswer = Chrome('driver_file/chromedriver', options=option)
+    url = 'https://voice.baidu.com/act/virussearch/virussearch/'
+    broswer.get(url)
+    # print(broswer.page_source)
+    more = broswer.find_element_by_css_selector(
+        '#ptab-0 > div > div.VirusHot_1-5-6_32AY4F.VirusHot_1-5-6_2RnRvg > section > div')
+    # print(more)
+    more.click()
+    # more.click()  # 点击展开
+    time.sleep(1)  # 等待一定时间
+    lst = broswer.find_elements_by_xpath('//*[@id="ptab-0"]/div/div[1]/section/a/div/span[2]')  # list
+    for item in lst:
+        print(item.text)
+    broswer.close()  # 关闭浏览器
+
+ if __name__ == '__main__':
+    get_host_search()
+```
+`爬取的结果：`
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200427024545236.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RoYW5sb24=,size_16,color_FFFFFF,t_70)
 ##### 3. 数据持久化
 ###### 3.1 疫情数据的持久化
 mysql数据库操作：
@@ -298,8 +329,8 @@ if __name__ == '__main__':
 ###### 4.1 可视化大屏模板设计
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200425140815148.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RoYW5sb24=,size_16,color_FFFFFF,t_70)
 >**项目源代码在文章的最下面，仅供参考!!!**
-###### 4.2 疫情概况
-###### 4.3 服务器时间显示
+
+###### 4.2 时间的实时更新
 获取服务器时间的后台逻辑：
 
 <kbd>get_server_time.py：</kbd>
@@ -339,9 +370,16 @@ function get_time() {
 
 setInterval(get_time, 1000);
 ```
-###### 4.4 
-在pycharm创建一个flask的项目，会自动构建初始的项目目录。下面是业务处理逻辑代码：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200426014830961.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RoYW5sb24=,size_16,color_FFFFFF,t_70)
+###### 4.3 疫情概况的实现
 
+###### 4.4 全国疫情地图的实现
+
+###### 4.5 全国累积与新增趋势的实现
+
+###### 4.6 
+
+###### 4.7 今日热搜的实现
 
 ##### 5. 项目部署
 ###### 5.1 部署流程

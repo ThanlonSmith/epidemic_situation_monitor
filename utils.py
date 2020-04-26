@@ -247,6 +247,29 @@ def get_epidemic_situation():
     return ret[0]
 
 
+def get_host_search():
+    from selenium.webdriver import Chrome, ChromeOptions
+    # google chrome的无头模式，即不打开浏览器，后台自动加载数据，可以大幅度提高爬虫效率，
+    option = ChromeOptions()
+    option.add_argument('--headless')  # 一藏浏览器，可以大幅度提高爬虫效率
+    option.add_argument('--no-sandbox')  # 部署的时候linux还会要求参数，需要禁用sandbox
+    broswer = Chrome('driver_file/chromedriver', options=option)
+    url = 'https://voice.baidu.com/act/virussearch/virussearch/'
+    broswer.get(url)
+    # print(broswer.page_source)
+    more = broswer.find_element_by_css_selector(
+        '#ptab-0 > div > div.VirusHot_1-5-6_32AY4F.VirusHot_1-5-6_2RnRvg > section > div')
+    # print(more)
+    more.click()
+    # more.click()  # 点击展开
+    time.sleep(1)  # 等待一定时间
+    lst = broswer.find_elements_by_xpath('//*[@id="ptab-0"]/div/div[1]/section/a/div/span[2]')  # list
+    for item in lst:
+        print(item.text)
+    broswer.close()  # 关闭浏览器
+
+
 if __name__ == '__main__':
     pass
+    get_host_search()
     # get_epidemic_situation()
