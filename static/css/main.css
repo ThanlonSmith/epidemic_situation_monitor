@@ -47,7 +47,7 @@ body {
     color: white;
 }
 
-.epidemic_situation {
+.key_info {
     width: 25%;
     float: left;
     display: flex; /*也启用了弹性布局*/

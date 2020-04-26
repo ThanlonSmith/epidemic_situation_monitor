@@ -10,10 +10,10 @@
 <div id="l1">左1</div>
 <div id="l2">左2</div>
 <div id="c1">
-    <div class="epidemic_situation"><h1>84330</h1></div>
-    <div class="epidemic_situation"><h1>123</h1></div>
-    <div class="epidemic_situation"><h1>123</h1></div>
-    <div class="epidemic_situation"><h1>123</h1></div>
+    <div class="key_info"><h1></h1></div>
+    <div class="key_info"><h1></h1></div>
+    <div class="key_info"><h1></h1></div>
+    <div class="key_info"><h1></h1></div>
     <div class="txt"><h2>累积确诊</h2></div>
     <div class="txt"><h2>累积疑似</h2></div>
     <div class="txt"><h2>累积治愈</h2></div>
@@ -25,5 +25,34 @@
 <div id="r2">右2</div>
 </body>
 <script src="{{ url_for('static',filename='js/jquery-3.5.0.js') }}"></script>
-<script src="{{ url_for('static',filename='js/get_time.js') }}"></script>
+<script>
+    function get_time() {
+        $.ajax({
+            url: "/get_time",
+            timeout: 10000,//超时时间设置为10秒
+            success: function (data) {
+                $('#time').html(data);
+            }, error: function (xhr, type, errorThrown) {
+
+            }
+        })
+    }
+
+    function get_key_info() {
+        $.ajax({
+            url: "/get_key_info",
+            success: function (data) {
+                $(".key_info h1").eq(0).text(data.confirm_num);
+                $(".key_info h1").eq(1).text(data.suspect_num);
+                $(".key_info h1").eq(2).text(data.heal_num);
+                $(".key_info h1").eq(3).text(data.dead_num);
+            }, error: function () {
+
+            }
+        })
+    }
+
+    setInterval(get_time, 1000);
+    setInterval(get_key_info, 1000)
+</script>
 </html>
