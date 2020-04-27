@@ -263,13 +263,40 @@ def get_host_search():
     more.click()
     # more.click()  # 点击展开
     time.sleep(1)  # 等待一定时间
-    lst = broswer.find_elements_by_xpath('//*[@id="ptab-0"]/div/div[1]/section/a/div/span[2]')  # list
-    for item in lst:
-        print(item.text)
+    data_lst = broswer.find_elements_by_xpath('//*[@id="ptab-0"]/div/div[1]/section/a/div/span[2]')  # list
+    # for item in lst:
+    #   print(item.text)
+    # print(data_lst)
+    context = [item.text for item in data_lst]  # 在关闭浏览器之前获取，否则报session失效
     broswer.close()  # 关闭浏览器
+    # print(context)
+    return context
+
+
+def storage_host_search():
+    conn = None
+    cursor = None
+    try:
+        context = get_host_search()
+        # print(context)
+        print(f'{time.asctime()} 开始向数据库中插入今日疫情热搜数据')
+        conn, cursor = get_conn()
+        sql = 'insert host_search(dt,content) values(%s,%s)'
+        # print(context)
+        dt = time.strftime('%Y-%m-%d %X')
+        # print(dt)
+        for item in context:
+            cursor.execute(sql, (dt, item))
+        conn.commit()
+        print(f'{time.asctime()} 已完成向数据库中插入今日疫情热搜数据')
+    except:
+        traceback.print_exc()
+    finally:
+        cloe_conn(conn, cursor)
 
 
 if __name__ == '__main__':
     pass
-    get_host_search()
+    # get_host_search()
     # get_epidemic_situation()
+    storage_host_search()

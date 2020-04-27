@@ -192,7 +192,7 @@ PRIMARY KEY(id)
 
 持久化到数据库的业务逻辑：
 
-<kbd>store_tencent_data.py：</kbd>
+<kbd>utils.py：</kbd>
 ```py
 import pymysql
 import time
@@ -323,8 +323,41 @@ if __name__ == '__main__':
     update_history_data()
     update_detail_data()
 ```
-###### 3.2 百度热搜数据的持久化
+###### 3.2 今日疫情热搜数据的持久化
+创建数据库：
+```sql
+create table if not exists host_search
+(id int auto_increment, 
+dt datetime on update current_timestamp, 
+ content varchar(255), 
+ primary key(id) 
+ )engine=innodb default charset=utf8;
+```
+持久化到数据库的业务逻辑：
 
+<kbd>utils.py：</kbd>
+```py
+def storage_host_search():
+    conn = None
+    cursor = None
+    try:
+        context = get_host_search()
+        # print(context)
+        print(f'{time.asctime()} 开始向数据库中插入今日疫情热搜数据')
+        conn, cursor = get_conn()
+        sql = 'insert host_search(dt,content) values(%s,%s)'
+        # print(context)
+        dt = time.strftime('%Y-%m-%d %X')
+        # print(dt)
+        for item in context:
+            cursor.execute(sql, (dt, item))
+        conn.commit()
+        print(f'{time.asctime()} 已完成向数据库中插入今日疫情热搜数据')
+    except:
+        traceback.print_exc()
+    finally:
+        cloe_conn(conn, cursor)
+```
 ##### 4. web开发与可视化
 ###### 4.1 可视化大屏模板设计
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200425140815148.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RoYW5sb24=,size_16,color_FFFFFF,t_70)
