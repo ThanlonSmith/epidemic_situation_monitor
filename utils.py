@@ -209,7 +209,7 @@ def get_conn():
     return conn, cursor
 
 
-def cloe_conn(cursor, conn):
+def cloe_conn(conn, cursor):
     '''
     关闭数据库连接
     :param conn: 连接
@@ -232,7 +232,7 @@ def query(sql, *args):
     conn, cursor = get_conn()
     cursor.execute(sql, args)
     ret = cursor.fetchall()  # 拿到所有数据
-    cloe_conn(cursor, conn)
+    cloe_conn(conn, cursor)
     return ret
 
 
@@ -295,8 +295,21 @@ def storage_host_search():
         cloe_conn(conn, cursor)
 
 
+def get_domestic_data():
+    '''
+    获取国内各省份当日疫情累积确诊人数
+    :return:
+    '''
+    conn, cursor = None, None
+    sql = 'select province_name,sum(confirm_num ) from detail_data where lastUpdateTime = (select lastUpdateTime from detail_data order by lastUpdateTime desc limit 1) group by province_name ;'
+    ret = query(sql)
+    # print(ret)
+    return ret
+
+
 if __name__ == '__main__':
     pass
     # get_host_search()
     # get_epidemic_situation()
-    storage_host_search()
+    # storage_host_search()
+    get_domestic_data()

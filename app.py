@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from utils import get_server_time, get_epidemic_situation
+from utils import get_server_time, get_epidemic_situation, get_domestic_data
 from flask import jsonify
 
 app = Flask(__name__)
@@ -32,6 +32,21 @@ def get_key_info():
     # print('死亡人数:', data[3], type(data[3]))
     return jsonify(
         {'confirm_num': data[0], 'suspect_num': data[1], 'heal_num': data[2], 'dead_num': int(data[3])})
+
+
+@app.route('/get_china_data')
+def get_china_data():
+    china_data = get_domestic_data()
+    china_lst = []
+    for tup_item in china_data:
+        # province = item[0]
+        # confirm_num = item[1]
+        # print(province)
+        # print(confirm_num)
+        china_lst.append({"name": tup_item[0], "value": tup_item[1]})
+    # print(china_lst)
+    # print(jsonify({"data": china_lst}))
+    return jsonify({"data": china_lst})
 
 
 if __name__ == '__main__':

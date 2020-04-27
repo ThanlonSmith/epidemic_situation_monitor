@@ -19,40 +19,17 @@
     <div class="txt"><h2>累积治愈</h2></div>
     <div class="txt"><h2>累积死亡</h2></div>
 </div>
-<div id="c2">中2</div>
+<div id="c2">
+
+</div>
 <div id="time"></div>
 <div id="r1">右1</div>
 <div id="r2">右2</div>
 </body>
-<script src="{{ url_for('static',filename='js/jquery-3.5.0.js') }}"></script>
-<script>
-    function get_time() {
-        $.ajax({
-            url: "/get_time",
-            timeout: 10000,//超时时间设置为10秒
-            success: function (data) {
-                $('#time').html(data);
-            }, error: function (xhr, type, errorThrown) {
-
-            }
-        })
-    }
-
-    function get_key_info() {
-        $.ajax({
-            url: "/get_key_info",
-            success: function (data) {
-                $(".key_info h1").eq(0).text(data.confirm_num);
-                $(".key_info h1").eq(1).text(data.suspect_num);
-                $(".key_info h1").eq(2).text(data.heal_num);
-                $(".key_info h1").eq(3).text(data.dead_num);
-            }, error: function () {
-
-            }
-        })
-    }
-
-    setInterval(get_time, 1000);
-    setInterval(get_key_info, 1000)
-</script>
+<script src="{{ url_for('static',filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static',filename='js/controller.js') }}"></script>
+<!--注意引用的顺序-->
+<script src="{{ url_for('static',filename='js/echarts.js') }}"></script>
+<script src="{{ url_for('static',filename='js/china.js') }}"></script>
+<script src="{{ url_for('static',filename='js/chinaMap.js') }}"></script>
 </html>
